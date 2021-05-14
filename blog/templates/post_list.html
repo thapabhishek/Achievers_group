@@ -4,18 +4,13 @@
 
 </head>
 <body>
-    <header>
-        <h1>My Blog Posts</h1>
-    </header>
+    {% for post in posts %}
     <article>
-        <time>Published: 20.12.2020, 08:12</time>
-        <h2><a href="#">My first Post</a></h2>
-        <p>Demo text</p>
+        <h2><a href='#'>{{post.title}}</a></a></h2>
+        <p>{{post.text}}</p>
+        <time>Published Date: {{post.published_date}}</time>
+        <h2>Published by: {{post.author}}</h2>
     </article>
-    <article>
-        <time>Published: 20.12.2020, 08:12</time>
-        <h2><a href="#">My first Post</a></h2>
-        <p>Demo text</p>
-    </article>
+    {% endfor %}
 </body>
 </html>
