@@ -5,6 +5,9 @@
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
     <body>
+        <div class="container">
+            <a href="{% url 'post_new' %}"> Create Post</a>
+        </div>
         {% block body %}
 
         {% endblock %}
