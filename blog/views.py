@@ -3,11 +3,22 @@ from django.utils import timezone
 from django.http import HttpResponse
 from .models import Post
 from .forms import PostForm
+from django.core.paginator import Paginator, PageNotAnInteger
 
 # Create your views here.
+
 def post_list(request):
     posts = Post.objects.all()
-    return render(request, 'post_list.html', {'posts': posts})
+    paginator = Paginator(posts, 3)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    return render(request, 'post_list.html', {'page':page, 'posts':posts})
+#def post_list(request):
+#    posts = Post.objects.all()
+#    return render(request, 'post_list.html', {'posts': posts})
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)

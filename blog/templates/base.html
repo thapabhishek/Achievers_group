@@ -5,9 +5,11 @@
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
     <body>
+        {% if user.is_authenticated %}
         <div class="container">
-            <a href="{% url 'post_new' %}"> Create Post</a>
+            <button class="btn btn-success"><a href="{% url 'post_new' %}"> Create Post</a></button>
         </div>
+        {% endif %}
         {% block body %}
 
         {% endblock %}
