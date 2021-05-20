@@ -10,5 +10,13 @@ class Post(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return self.title
+
+class Document(models.Model):
+    title = models.CharField(max_length=200)
+    document = models.FileField(upload_to='images/')
+    uploaded_at = models.DateTimeField(default=timezone.now)

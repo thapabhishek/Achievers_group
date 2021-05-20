@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from django.http import HttpResponse
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, DocumentForm
 from django.core.paginator import Paginator, PageNotAnInteger
 
 # Create your views here.
@@ -36,6 +36,17 @@ def post_new(request):
     else:
         form = PostForm()
     return render(request, 'post_new.html', {'form': form})
+
+def upload(request):
+    if request.method == "POST":
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('post_list')
+    else:
+        form = DocumentForm()
+    return render(request, 'form_upload.html', {'form': form})
+
 
     
 def home(request):
