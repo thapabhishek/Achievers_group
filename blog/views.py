@@ -2,8 +2,11 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from django.http import HttpResponse
 from .models import Post
-from .forms import PostForm, DocumentForm
+from .forms import PostForm, DocumentForm, Subscribe
 from django.core.paginator import Paginator, PageNotAnInteger
+
+from mysite.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -47,6 +50,33 @@ def upload(request):
         form = DocumentForm()
     return render(request, 'form_upload.html', {'form': form})
 
+def subscribe(request):
+    sub = Subscribe()
+    if request.method == 'POST':
+        sub = Subscribe(request.POST)
+        print(sub['Email'])
+        subject = "Welcome To Achiever\'s group."
+        message = 'You are viewing demo of gmail functionality'
+        recepient = str(sub['Email'].value())
+        print(recepient)
+        send_mail(subject, message, EMAIL_HOST_USER, [recepient], fail_silently=False)
+        return render(request, 'success.html',{'receipent': recepient})
+    return render(request, 'email.html', {'form':sub})
+
+
+#def subscribe(request):
+ #   sub = Subscribe()
+  #  if request.method == 'POST':
+   #     sub = Subscribe(request.POST)
+    #    print("First", sub['Email'])
+     #   subject = 'Welcome to Achiever\'s'
+      #  message = 'Hope you are enjoying your Django Tutorials'
+       # recepient = str(sub['Email'].value())
+        #print("Second", recepient)
+        #send_mail(subject, 
+         #   message, EMAIL_HOST_USER, [recepient], fail_silently = False)
+        #return render(request, 'success.html', {'recepient': recepient})
+    #return render(request, 'email.html', {'form':sub})
 
     
 def home(request):
