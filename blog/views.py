@@ -63,21 +63,6 @@ def subscribe(request):
         return render(request, 'success.html',{'receipent': recepient})
     return render(request, 'email.html', {'form':sub})
 
-
-#def subscribe(request):
- #   sub = Subscribe()
-  #  if request.method == 'POST':
-   #     sub = Subscribe(request.POST)
-    #    print("First", sub['Email'])
-     #   subject = 'Welcome to Achiever\'s'
-      #  message = 'Hope you are enjoying your Django Tutorials'
-       # recepient = str(sub['Email'].value())
-        #print("Second", recepient)
-        #send_mail(subject, 
-         #   message, EMAIL_HOST_USER, [recepient], fail_silently = False)
-        #return render(request, 'success.html', {'recepient': recepient})
-    #return render(request, 'email.html', {'form':sub})
-
     
 def home(request):
     return HttpResponse('Hey')

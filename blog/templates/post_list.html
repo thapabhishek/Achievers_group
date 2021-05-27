@@ -1,22 +1,37 @@
 {% extends 'base.html' %}
-    {% block body %}
-        {% for post in posts %}
-        <article class="container">
-            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
-            <p>{{ post.text }}</p>
-            <time>Published date: {{post.published_date}}</time>
-        </article>
-        <hr>
-        {% endfor %}
-    {% if posts.has_other_pages %}
-        <nav aria-label="Page navigation container"></nav>
-        <ul class="pagination justify-content-center">
-            {% if posts.has_previous %}
-                <button><a href="?page={{ posts.previous_page_number }}">&laquo; PREV</a></button>
-            {% endif %}
-            {% if posts.has_next %}
-            <button><a href="?page={{ posts.next_page_number }}">NEXT &raquo;</a></button>
-            {% endif %}
-        </ul>
-    {% endif %}
+{% block body %}
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <!-- Post preview-->
+                <div class="post-preview">
+                    {% for post in posts %}
+                        <a href="{% url 'post_detail' pk=post.pk %}">
+                            <h2 class="post-title">{{ post.title}}</h2>
+                            <p class="post-subtitle">{{ post.text }}</p>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="#!">{{ post.author }}</a>
+                            on {{ post.published_date}}
+                        </p>
+                    {% endfor %}
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    <!-- Pager-->
+                    <div class="d-flex justify-content-end mb-4">
+                        {% if posts.has_other_pages %}
+                            {% if posts.has_previous %}
+                                <a class="btn btn-primary text-uppercase" href="?page={{ posts.previous_page_number }}">Newer Posts</a>
+                            {% endif %}
+                            {% if posts.has_next %}
+                                <a class="btn btn-primary text-uppercase" href="?page={{ posts.next_page_number }}">Older Posts →</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
 {% endblock %}
