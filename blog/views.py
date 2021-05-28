@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from django.http import HttpResponse
 from .models import Post
-from .forms import PostForm, DocumentForm, Subscribe
+from .forms import PostForm, DocumentForm, Subscribe, CommentForm
 from django.core.paginator import Paginator, PageNotAnInteger
 
 from mysite.settings import EMAIL_HOST_USER
@@ -25,7 +25,24 @@ def post_list(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'post_detail.html', {'post': post})
+    comments = post.comments.filter(active=True)
+    new_comment = None
+
+    #comment posted
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            #assign current post to the comment
+            new_comment.post = post
+            new_comment.save()
+
+    else:
+        comment_form = CommentForm()           
+
+
+
+    return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'new_comment':new_comment, 'comment_form':comment_form})
 
 def post_new(request):
     if request.method == "POST":
