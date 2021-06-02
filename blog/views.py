@@ -38,10 +38,8 @@ def post_detail(request, pk):
             new_comment.save()
 
     else:
-        comment_form = CommentForm()           
-
-
-
+        comment_form = CommentForm()
+        
     return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'new_comment':new_comment, 'comment_form':comment_form})
 
 def post_new(request):
